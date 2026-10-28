@@ -1,7 +1,7 @@
 """Example take: a short Wikipedia search filmed with Screen Studio.
 
-    ../.venv/bin/python take_web.py --dry     # rehearse: same moves, nothing recorded
-    ../.venv/bin/python take_web.py           # record, export, write marks for assemble.py
+    .venv/bin/python examples/take_web.py --dry     # from the skill folder: rehearse, nothing recorded
+    .venv/bin/python examples/take_web.py           # record, export, write marks for assemble.py
 
 Copy this file for a new product: change URL, the window rect and scenario(). Keep scenario() free of
 Screen Studio calls so the dry run and the take do exactly the same thing.

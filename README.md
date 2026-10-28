@@ -16,6 +16,66 @@
   <img src="https://img.shields.io/badge/python-3.10%2B-3776ab" alt="Python 3.10+">
 </p>
 
+## Quick start
+
+You need a Mac with [Screen Studio](https://screen.studio) (installed and licensed), Google Chrome, [Homebrew](https://brew.sh) and Python 3.10+.
+
+**1. Install the skill and its dependencies**
+
+```sh
+git clone https://github.com/LuminiteTime/screen-studio-director ~/.claude/skills/screen-studio-director
+cd ~/.claude/skills/screen-studio-director
+bash scripts/setup.sh
+```
+
+`setup.sh` installs ffmpeg, puts the Python packages into `.venv` inside the skill folder and checks everything. With the [skills CLI](https://skills.sh) the first line is `npx skills add LuminiteTime/screen-studio-director`; then `cd` into the folder it reports and run the same `setup.sh`.
+
+**2. Allow control of the Mac**
+
+System Settings > Privacy & Security: turn on your terminal app (Terminal, iTerm, Ghostty, VS Code...) under **Accessibility** and under **Screen Recording**, then quit and reopen the terminal.
+
+**3. Check**
+
+```sh
+python3 scripts/doctor.py
+```
+
+```
+ok      macOS
+ok      python module pyobjc-framework-Quartz
+MISSING ffmpeg
+        fix: brew install ffmpeg
+ok      Screen Studio app
+MISSING Accessibility permission
+        fix: System Settings > Privacy & Security > Accessibility: enable your terminal app, then restart it
+2 missing
+```
+
+Run whatever `fix:` says, then run doctor again until it prints `all good`.
+
+**4. Ask your agent**
+
+> Record a 60-second demo of https://myapp.com: sign up, create a project, share it. English captions, light music, 16:9.
+
+Hands off the mouse and keyboard while it records, and turn on Do Not Disturb. The agent runs doctor on its own before the first take and calls `setup.sh` if something is missing, so on a new Mac step 4 alone often works.
+
+## Commands
+
+All of them run from the skill folder. They are for checking and debugging; normally the agent runs them.
+
+| Command | What it does |
+|---|---|
+| `python3 scripts/doctor.py` | checks the whole setup, prints a fix for each problem |
+| `bash scripts/setup.sh` | installs or repairs dependencies, safe to re-run |
+| `.venv/bin/python scripts/desktop.py` | screen size, cursor position, both permissions |
+| `.venv/bin/python scripts/browser.py` | opens Chrome, moves the real cursor and checks the page sees it exactly there |
+| `.venv/bin/python scripts/screen_studio.py` | lists Screen Studio's windows and every label the agent can click |
+| `.venv/bin/python examples/take_web.py --dry` | rehearses the example scenario without recording |
+| `.venv/bin/python examples/take_web.py` | records it with Screen Studio and exports to `examples/out/` |
+| `.venv/bin/python scripts/assemble.py timeline.json --still 5` | renders one frame of the edit at 5 s as PNG |
+| `.venv/bin/python scripts/assemble.py timeline.json` | renders the whole video |
+| `.venv/bin/python scripts/music.py 60 bed.wav --mood calm` | 60 s of background music, moods `bright` `calm` `warm` `night` |
+
 ## Why
 
 [Screen Studio](https://screen.studio) makes screen recordings look expensive. The cursor glides, the camera zooms in on clicks, and the window sits on a wallpaper with a soft shadow. It only works if a person is moving the mouse, though. Ask an agent to film your app and it will usually reach for Playwright, whose clicks happen inside the page and never move the system cursor. Screen Studio then records a frozen pointer and makes no zooms at all.
@@ -52,7 +112,7 @@ The rules live in [SKILL.md](SKILL.md). Details load only when the agent needs t
 | [post-production.md](references/post-production.md) | timeline format, layouts, design directions, motion, music, encoding |
 | [troubleshooting.md](references/troubleshooting.md) | symptom, cause and fix for everything that has broken so far |
 
-## Scripts
+## Inside
 
 | Script | Does |
 |---|---|
@@ -65,37 +125,9 @@ The rules live in [SKILL.md](SKILL.md). Details load only when the agent needs t
 
 [examples/take_web.py](examples/take_web.py) records a short Wikipedia search, and [examples/timeline.json](examples/timeline.json) shows every timeline field.
 
-## Requirements
-
-You need macOS with [Screen Studio](https://screen.studio) installed and licensed, Google Chrome, Homebrew and Python 3.10 or newer. Everything else installs with one command from the skill folder:
-
-```sh
-bash scripts/setup.sh
-```
-
-It installs ffmpeg through Homebrew, puts the Python packages (Playwright, PyObjC for Quartz and accessibility, Pillow, NumPy) into a `.venv` inside the skill folder, and runs `scripts/doctor.py`, which lists anything still missing along with the command that fixes it. The venv is there because Homebrew's Python refuses global `pip install`. The agent runs the same check before its first take and calls setup itself when something is missing.
-
-Two things the script cannot do for you. Give the terminal app that runs the agent Accessibility and Screen Recording access in System Settings > Privacy & Security, then restart it. And install and license Screen Studio yourself.
-
-## Install
-
-With the [skills CLI](https://skills.sh), which detects your agents
-
-```sh
-npx skills add LuminiteTime/screen-studio-director
-```
-
-Or clone it into your agent's skills folder, Claude Code shown here
-
-```sh
-git clone https://github.com/LuminiteTime/screen-studio-director ~/.claude/skills/screen-studio-director
-```
-
-The agent will be moving your mouse and typing on your Mac while it records. Leave the machine alone during a take, and turn on Do Not Disturb so notifications stay out of the video.
-
 ## What was tested
 
-Tested on Screen Studio 3.5.1 under macOS 26 with an English interface, on a 1512x982 MacBook screen. Web takes, phone-viewport takes, area and window recording, quick export, project export, `project.json` edits and the whole edit pipeline all ran end to end. The notes on iOS Simulator, the Android emulator and Screen Studio's Device mode for a cabled iPhone describe the approach but are marked as unverified. If your Screen Studio uses another interface language, run `python scripts/screen_studio.py` to print the labels it actually shows.
+Tested on Screen Studio 3.5.1 under macOS 26 with an English interface, on a 1512x982 MacBook screen. Web takes, phone-viewport takes, area and window recording, quick export, project export, `project.json` edits and the whole edit pipeline all ran end to end. The notes on iOS Simulator, the Android emulator and Screen Studio's Device mode for a cabled iPhone describe the approach but are marked as unverified. If your Screen Studio uses another interface language, run `.venv/bin/python scripts/screen_studio.py` to print the labels it actually shows.
 
 This project is not affiliated with Screen Studio.
 
