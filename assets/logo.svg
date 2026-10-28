@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="screen-studio-director logo">
+  <defs>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5b4bff"/>
+      <stop offset="1" stop-color="#2a1fb8"/>
+    </linearGradient>
+  </defs>
+  <circle cx="120" cy="120" r="116" fill="#141826"/>
+  <!-- clapper top -->
+  <g transform="rotate(-10 52 74)">
+    <rect x="46" y="58" width="148" height="26" rx="5" fill="#f4f1ea"/>
+    <path fill="#141826" d="M66 58h20l-14 26H52zM106 58h20l-14 26H92zM146 58h20l-14 26h-20zM186 58h8v8l-10 18h-12z"/>
+  </g>
+  <!-- screen -->
+  <rect x="46" y="92" width="148" height="98" rx="10" fill="url(#screen)"/>
+  <rect x="60" y="106" width="60" height="8" rx="4" fill="#ffffff" opacity="0.85"/>
+  <rect x="60" y="122" width="96" height="6" rx="3" fill="#ffffff" opacity="0.45"/>
+  <rect x="60" y="134" width="78" height="6" rx="3" fill="#ffffff" opacity="0.45"/>
+  <!-- zoom ring + cursor -->
+  <circle cx="146" cy="148" r="20" fill="none" stroke="#acef81" stroke-width="5" opacity="0.9"/>
+  <path fill="#ffffff" stroke="#141826" stroke-width="4" stroke-linejoin="round" d="M146 148v46l11-11 8 18 8-4-8-17h16z"/>
+</svg>
