@@ -1,0 +1,45 @@
+{
+  "out": "out/demo.mp4",
+  "size": [1920, 1080],
+  "fps": 60,
+  "crossfade": 0.6,
+  "accent": "#ACEF81",
+  "on_accent": "#111111",
+  "tint": "#06123C",
+  "font": "/System/Library/Fonts/SFNS.ttf",
+  "music": { "mood": "bright", "bpm": 84, "seed": 7, "volume": 0.55 },
+  "parts": [
+    {
+      "type": "card",
+      "bg": { "src": "out/web.mp4", "t": 2.0 },
+      "dur": 3.2,
+      "title": "Find anything in seconds",
+      "subtitle": "A 20-second tour"
+    },
+    {
+      "type": "clip",
+      "src": "out/web.mp4",
+      "start": 0.8,
+      "end": 14.0,
+      "layout": "fill",
+      "marks": "out/web_marks.json",
+      "project": "/Users/you/Screen Studio Projects/Area 2026-01-01 12:00:00.screenstudio"
+    },
+    {
+      "type": "clip",
+      "src": "out/phone.mp4",
+      "start": 1.0,
+      "end": 12.0,
+      "layout": "device",
+      "screen": [60, 72, 503, 1008],
+      "captions": [[1.0, "Same flow on the phone"], [7.0, "Swipe to the next one"], [11.0, null]]
+    },
+    {
+      "type": "card",
+      "bg": { "src": "out/web.mp4", "t": 12.0 },
+      "dur": 4.0,
+      "title": "Try it today",
+      "button": "example.com"
+    }
+  ]
+}
