@@ -27,10 +27,12 @@ checklist of it and check the result against it before you deliver.
 
 ## Workflow
 
-1. **Preflight.** `python scripts/desktop.py` must print `ok` for accessibility and screen recording
-   (grant them to the terminal app in System Settings, then restart it). Check the screen size, where
-   the Dock is, and turn on Do Not Disturb. Install deps: `pip install -r scripts/requirements.txt`,
-   `playwright install chrome` if Chrome is missing, `brew install ffmpeg`.
+1. **Preflight.** Run `python3 scripts/doctor.py` from the skill folder. If anything is missing, run
+   `bash scripts/setup.sh` once: it installs ffmpeg through Homebrew and the Python packages into
+   `.venv` in the skill folder, then re-checks. Two things stay manual and need the user: Accessibility
+   and Screen Recording permission for the terminal app (System Settings > Privacy & Security, then
+   restart the terminal), and an installed, licensed Screen Studio. Then check the screen size, where
+   the Dock is, and turn on Do Not Disturb.
 2. **Brief to storyboard.** Write the story as beats: one idea per beat, one caption per beat, the
    action that proves it. Decide length, aspect ratio (16:9, 9:16, 1:1, several), language, captions,
    music. Read [references/storytelling.md](references/storytelling.md).
@@ -88,8 +90,11 @@ These come from real failures. Each one cost a reshoot.
 | `scripts/browser.py` | Chrome `--app` window via Playwright, page-to-screen mapping, locators and Flutter semantics, phone viewport, filmed actions, `Marks` |
 | `scripts/assemble.py` | Timeline JSON to finished MP4: cards, fill/fit/device layouts, captions from marks, crossfades, music; `--still T` previews |
 | `scripts/music.py` | Synthesized ambient bed of any length, moods `bright`, `calm`, `warm`, `night` |
+| `scripts/doctor.py` | Checks macOS, Python, packages, ffmpeg, Chrome, Screen Studio, permissions; prints the fix for each miss |
+| `scripts/setup.sh` | One-time install of ffmpeg and the Python packages (venv), then runs doctor |
 
-Run scripts with the scripts folder on `sys.path` (see `examples/take_web.py`). Start a new take
+Run every script with the skill's interpreter, `<skill>/.venv/bin/python`, and keep the scripts folder
+on `sys.path` (see `examples/take_web.py`). Start a new take
 script by copying `examples/take_web.py`; start a new edit from `examples/timeline.json`.
 
 ## References

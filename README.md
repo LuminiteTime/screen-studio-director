@@ -61,20 +61,21 @@ The rules live in [SKILL.md](SKILL.md). Details load only when the agent needs t
 | `scripts/browser.py` | a Chrome `--app` window through Playwright with exact page-to-screen mapping, Flutter web support, phone viewports and scenario marks |
 | `scripts/assemble.py` | timeline JSON in, finished H.264 video out; `--still 12.5` renders one frame for a quick look |
 | `scripts/music.py` | a synthesized ambient bed of any length in four moods, so there is no licensing question |
+| `scripts/setup.sh`, `scripts/doctor.py` | one-time install, and a check that prints the fix for anything missing |
 
 [examples/take_web.py](examples/take_web.py) records a short Wikipedia search, and [examples/timeline.json](examples/timeline.json) shows every timeline field.
 
 ## Requirements
 
-You need macOS with [Screen Studio](https://screen.studio) installed and licensed, Google Chrome, Python 3.10 or newer, and ffmpeg.
+You need macOS with [Screen Studio](https://screen.studio) installed and licensed, Google Chrome, Homebrew and Python 3.10 or newer. Everything else installs with one command from the skill folder:
 
 ```sh
-pip install -r scripts/requirements.txt
-brew install ffmpeg
-python scripts/desktop.py      # both permissions must say ok
+bash scripts/setup.sh
 ```
 
-Give the terminal app that runs the scripts Accessibility and Screen Recording access in System Settings > Privacy & Security, then restart it.
+It installs ffmpeg through Homebrew, puts the Python packages (Playwright, PyObjC for Quartz and accessibility, Pillow, NumPy) into a `.venv` inside the skill folder, and runs `scripts/doctor.py`, which lists anything still missing along with the command that fixes it. The venv is there because Homebrew's Python refuses global `pip install`. The agent runs the same check before its first take and calls setup itself when something is missing.
+
+Two things the script cannot do for you. Give the terminal app that runs the agent Accessibility and Screen Recording access in System Settings > Privacy & Security, then restart it. And install and license Screen Studio yourself.
 
 ## Install
 
